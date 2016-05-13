@@ -1,0 +1,6 @@
+language: node_js
+
+# test on two node.js versions: 5 and 6
+node_js:
+  - 5
+  - 6
