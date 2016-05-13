@@ -1,4 +1,4 @@
-![cf](https://i.imgur.com/7v5ASc8.png) lab-05-tcp-chat-server
+![cf](https://i.imgur.com/7v5ASc8.png) tcp-chat-server
 ======
 
 Create a chat server that manages connecting clients and enables broadcasting of messages.
