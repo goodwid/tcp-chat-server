@@ -24,7 +24,7 @@ but is not coupled to it (Single Responsiblity Principal).
  
 * Because we won't be covering creating clients until tomorrow, you won't be able to e2e test your server.
 
-* **But** you still should unit test modules (another reason to decouple managing clients from the server).
+* **But** you still should unit test modules (another reason to decouple managing clients from the server) and for this assignment you  should us `chai` as your assertion library (you can choose either BDD or Assert api - just be consistent).
 
 ## Bonus
 
