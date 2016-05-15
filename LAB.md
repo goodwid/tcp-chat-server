@@ -20,7 +20,8 @@ Create a chat server that manages connecting clients and enables broadcasting of
 client who sent the message.
 
 * Make sure the functionality that manages clients is encapsulated so that it interacts with the net server,
-but is not coupled to it (Single Responsiblity Principal). 
+but is not coupled to it (Single Responsiblity Principal). There is no "one right way" to design this assignment, you
+should spend some time trying different possiblities.
  
 * Because we won't be covering creating clients until tomorrow, you won't be able to e2e test your server.
 
