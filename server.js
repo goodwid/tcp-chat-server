@@ -3,25 +3,18 @@
 const net = require('net');
 const chat = require ('./chat');
 
-var id = 0;
-
 const server = net.createServer(socket => {
-  socket.id = id++;
-  socket.nick = `guest0${id}`;
-  chat.clients.push(socket);
-  chat.init(socket);
+  console.log(chat.init(socket));
 
-  socket.on( 'close', () => console.log(`${socket.nick} disconnected`));
-
-  socket.on('data', chunk => {
-    if (/^\//.test(chunk)) {
-      chat.Events.emit('command'+socket.id, chunk.toString().split(' '));
-    } else {
-      chat.writeAll(`<${socket.nick}> ${chunk.toString()}`, socket);
-    }
+  socket.on( 'close', () =>{
+    console.log(`${socket.id} disconnected`);
+    // call cleanup function if user loses connection instead of using /quit
+    if (chat.clients.indexOf(socket) > -1) chat.quit(socket);
   });
 
-
+  socket.on('data', chunk => {
+    chat.processData(chunk, socket);
+  });
 });
 
 server.listen(process.argv[2]||3000, () => {

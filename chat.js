@@ -2,24 +2,14 @@ const ee = require('events');
 const chat = {};
 chat.Events = new ee();
 chat.clients = [];
+chat.id = 0;
 
-chat.quit = function (socket) {
-  chat.Events.removeAllListeners('quit'+socket.id);
-  chat.Events.removeAllListeners('command'+socket.id);
-  chat.Events.removeAllListeners('nick'+socket.id);
-  chat.clients.splice(chat.clients.indexOf(socket), 1);
-  socket.destroy();
-};
-
-chat.who = function (socket) {
-  socket.write('The following clients are connected:\n');
-  chat.clients.forEach( (client) => {
-    socket.write(`  ${client.nick}\n`);
-  });
-};
 
 chat.init = function (socket) {
-  console.log(`${socket.nick} connected`);
+  chat.id++;
+  socket.id = chat.id;
+  socket.nick = `guest0${socket.id}`;
+  chat.clients.push(socket);
   socket.write(`\nHello ${socket.nick}!\n\nCommands are:\n /nick <nick>: change your name.\n /who: list all connections.\n /quit: leave the room.\n\n`);
 
   chat.Events.on('nick'+socket.id, (newNick) => {
@@ -46,10 +36,18 @@ chat.init = function (socket) {
     }
     }
   });
+  return `${socket.nick} connected`;
+};
+
+chat.processData = function (chunk, socket) {
+  if (/^\//.test(chunk)) {
+    chat.Events.emit('command'+socket.id, chunk.toString().split(' '));
+  } else {
+    chat.writeAll(`<${socket.nick}> ${chunk.toString()}`, socket);
+  }
 };
 
 chat.writeAll = function (data, sender) {
-  console.log('sender: ', sender.nick);
   chat.clients.forEach( (client) => {
     if (client !== sender) {
       client.write(data);
@@ -57,5 +55,20 @@ chat.writeAll = function (data, sender) {
   });
 };
 
+chat.quit = function (socket) {
+  chat.writeAll(`${socket.nick} has left the chat.\n`, socket);
+  chat.Events.removeAllListeners('quit'+socket.id);
+  chat.Events.removeAllListeners('command'+socket.id);
+  chat.Events.removeAllListeners('nick'+socket.id);
+  chat.clients.splice(chat.clients.indexOf(socket), 1);
+  socket.destroy();
+};
+
+chat.who = function (socket) {
+  socket.write('The following clients are connected:\n');
+  chat.clients.forEach( (client) => {
+    socket.write(`  ${client.nick}\n`);
+  });
+};
 
 module.exports = chat;

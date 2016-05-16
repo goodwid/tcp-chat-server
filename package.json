@@ -4,7 +4,7 @@
   "description": "node-based chat server w/ telnet clients",
   "main": "server.js",
   "scripts": {
-    "test": "chai"
+    "test": "mocha"
   },
   "repository": {
     "type": "git",
@@ -21,6 +21,7 @@
   "homepage": "https://github.com/goodwid/tcp-chat-server#readme",
   "devDependencies": {
     "chai": "^3.5.0",
-    "gulp": "^3.9.1"
+    "gulp": "^3.9.1",
+    "mocha": "^2.4.5"
   }
 }
