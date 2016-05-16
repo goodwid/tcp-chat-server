@@ -1,0 +1,26 @@
+{
+  "name": "tcp-chat-server",
+  "version": "1.0.0",
+  "description": "node-based chat server w/ telnet clients",
+  "main": "server.js",
+  "scripts": {
+    "test": "chai"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/goodwid/tcp-chat-server.git"
+  },
+  "keywords": [
+    "chat"
+  ],
+  "author": "David Goodwin <goodwid@gmail.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/goodwid/tcp-chat-server/issues"
+  },
+  "homepage": "https://github.com/goodwid/tcp-chat-server#readme",
+  "devDependencies": {
+    "chai": "^3.5.0",
+    "gulp": "^3.9.1"
+  }
+}
