@@ -6,11 +6,12 @@ TCP chat server.
 To run, clone this repo, then run
 
     npm install
-    node server.js [port]
+    node index.js [port]
 
-Connect to the server by running:
+Connect to the server by running one of the following:
 
     telnet localhost [port]
+    node client.js [port]
 
 Available commands are:
 
