@@ -14,7 +14,7 @@ chat.init = function (socket) {
 
   chat.Events.on('nick'+socket.id, (newNick) => {
     var nickAvail = true;
-    chat.clients.foreach (client => {
+    chat.clients.forEach (client => {
       if (newNick === client.nick) nickAvail = false;
     });
     if (nickAvail) {
@@ -57,6 +57,10 @@ chat.init = function (socket) {
       });
       if (!nickFound) socket.write (' error: nick not found.\n');
       break;
+    }
+    case '/diag': {
+      socket.write('*** There are ' + chat.clients.length + 'in the array\n');
+      
     }
     }
   });

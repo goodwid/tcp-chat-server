@@ -27,7 +27,7 @@ describe('chat client handling', () => {
     assert (chat.clients[0].nick);
   });
 
-  it('writeAll writes to all objects except sender', () => {
+  it('writeAll writes to all sockets except sender', () => {
     chat.writeAll ('test', chat.clients[1]);
     assert ((chat.clients[0].output === 'test') && chat.clients[1].output !== 'test');
   });
