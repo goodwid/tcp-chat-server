@@ -1,10 +1,25 @@
 ![CF](http://i.imgur.com/7v5ASc8.png) TCP Chat Server
 ===
 
-* Lab instructions are [here](LAB.md)
+TCP chat server.
 
-* Lab Part 2 instructions are [here](LAB-Part2.md)
+To run, clone this repo, then run
 
-* Add your own `.eslintrc`, edit/replace `.*ignore` files as needed
+    npm install
+    node server.js [port]
 
-* Replace this README.md with your own!
+Connect to the server by running:
+
+    telnet localhost [port]
+
+Available commands are:
+
+  - /nick: change your nickname
+  - /who: shows who is connected
+  - /msg: private message to another
+  - /me: action in the chat room
+  - /quit: disconnect from the chat room
+
+Tests can be run by:
+
+    npm test

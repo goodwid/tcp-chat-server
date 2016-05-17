@@ -1,9 +1,14 @@
 ## changelog for tcp-chat-server
 
+### 1.0.5 (2016-05-16)
+
+#### changes:
+  - added /msg command
+
 ### 1.0.4 (2016-05-16)
 
 #### changes:
-  - 
+  - added /me command
 
 ### 1.0.3 (2016-05-16)
 

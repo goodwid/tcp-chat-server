@@ -10,11 +10,10 @@ chat.init = function (socket) {
   socket.id = chat.id;
   socket.nick = `guest0${socket.id}`;
   chat.clients.push(socket);
-  socket.write(`\nHello ${socket.nick}!\n\nCommands are:\n /nick <nick>: change your name.\n /who: list all connections.\n /quit: leave the room.\n\n`);
+  socket.write(`\nHello ${socket.nick}!\n\nCommands are:\n /nick <nick>: change your name.\n /who: list all connections.\n /quit: leave the room.\n /me: action.\n /msg: send private message to another.\n\n`);
 
   chat.Events.on('nick'+socket.id, (newNick) => {
-    console.log(`${socket.nick} is now ${newNick}`);
-    chat.writeAll(`*** ${socket.nick} is now known as ${newNick}\n`, socket);
+    chat.writeAll(`*** ${socket.nick} is now known as ${newNick}\n`, null);
     socket.nick = newNick;
   });
 
@@ -32,6 +31,22 @@ chat.init = function (socket) {
     }
     case '/who': {
       chat.who (socket);
+      break;
+    }
+    case '/me': {
+      data.shift();
+      chat.writeAll (`${socket.nick} ${data.join(' ')}`);
+      break;
+    }
+    case '/msg': {
+      var nickFound = false;
+      chat.clients.forEach(client => {
+        if (client.nick.toUpperCase() === data[1].toUpperCase()) {
+          client.write (`${socket.nick} whispers: ${data.slice(2)}`);
+          nickFound = true;
+        }
+      });
+      if (!nickFound) socket.write (' error: nick not found.\n');
       break;
     }
     }
