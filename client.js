@@ -23,7 +23,7 @@ const client = net.connect({port}, () => {
     prompt();
   });
 
-  client.on('close', text => {
+  client.on('close', () => {
     console.log('The connection has dropped.');
     process.exit(0);
   });

@@ -1,6 +1,4 @@
-const ee = require('events');
 const chat = {};
-chat.events = new ee();
 chat.clients = [];
 chat.id = 0;
 
@@ -13,7 +11,7 @@ chat.init = function (socket) {
   return `${socket.nick} connected`;
 };
 
-chat.nickChange = function (newNick) {
+chat.nickChange = function (socket, newNick) {
   var nickAvail = true;
   chat.clients.forEach (client => {
     if (newNick === client.nick) nickAvail = false;
@@ -26,48 +24,46 @@ chat.nickChange = function (newNick) {
   }
 };
 
-chat.command = function (data) {
-    switch (data[0].trim()) {
-    case '/nick': {
-      chat.nickChange(data[1].trim());
-      break;
-    }
-    case '/quit': {
-      chat.quit(socket);
-      break;
-    }
-    case '/who': {
-      chat.who (socket);
-      break;
-    }
-    case '/me': {
-      data.shift();
-      chat.writeAll (`${socket.nick} ${data.join(' ')}`);
-      break;
-    }
-    case '/msg': {
-      var nickFound = false;
-      chat.clients.forEach(client => {
-        if (client.nick.toUpperCase() === data[1].toUpperCase()) {
+chat.command = function (socket, data) {
+  switch (data[0].trim()) {
+  case '/nick': {
+    chat.nickChange(socket, data[1].trim());
+    break;
+  }
+  case '/quit': {
+    chat.quit(socket);
+    break;
+  }
+  case '/who': {
+    chat.who(socket);
+    break;
+  }
+  case '/me': {
+    data.shift();
+    chat.writeAll (`${socket.nick} ${data.join(' ')}`);
+    break;
+  }
+  case '/msg': {
+    var nickFound = false;
+    chat.clients.forEach(client => {
+      if (client.nick.toUpperCase() === data[1].toUpperCase()) {
 
-          client.write (`${socket.nick} whispers: ${data.slice(2).join(' ')}`);
-          nickFound = true;
-        }
-      });
-      if (!nickFound) socket.write (' error: nick not found.\n');
-      break;
-    }
-    case '/diag': {
-      socket.write('*** There are ' + chat.clients.length + 'in the array\n');
-
-    }
-    }
-  });
+        client.write (`${socket.nick} whispers: ${data.slice(2).join(' ')}`);
+        nickFound = true;
+      }
+    });
+    if (!nickFound) socket.write (' error: nick not found.\n');
+    break;
+  }
+  case '/diag': {
+    socket.write('*** There are ' + chat.clients.length + 'in the array\n');
+  }
+  }
 };
 
 chat.processData = function (chunk, socket) {
   if (/^\//.test(chunk)) {
-    chat.events.emit('command'+socket.id, chunk.toString().split(' '));
+    chat.command(socket, chunk.toString().split(' '));
   } else {
     chat.writeAll(`<${socket.nick}> ${chunk.toString()}`, socket);
   }
@@ -84,9 +80,6 @@ chat.writeAll = function (data, sender) {
 
 chat.quit = function (socket) {
   chat.writeAll(`${socket.nick} has left the chat.\n`, socket);
-  chat.events.removeAllListeners('quit'+socket.id);
-  chat.events.removeAllListeners('command'+socket.id);
-  chat.events.removeAllListeners('nick'+socket.id);
   chat.clients.splice(chat.clients.indexOf(socket), 1);
   socket.destroy();
 };

@@ -2,6 +2,7 @@ const net = require('net');
 const chat = require ('./chat');
 
 const server = net.createServer(socket => {
+  
   console.log(chat.init(socket));
 
   socket.on('data', chunk => {
