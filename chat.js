@@ -42,7 +42,8 @@ chat.init = function (socket) {
       var nickFound = false;
       chat.clients.forEach(client => {
         if (client.nick.toUpperCase() === data[1].toUpperCase()) {
-          client.write (`${socket.nick} whispers: ${data.slice(2)}`);
+
+          client.write (`${socket.nick} whispers: ${data.slice(2).join(' ')}`);
           nickFound = true;
         }
       });
