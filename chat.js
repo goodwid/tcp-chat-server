@@ -64,6 +64,7 @@ chat.processData = function (chunk, socket) {
 
 chat.writeAll = function (data, sender) {
   chat.clients.forEach( (client) => {
+    // Doesn't send message to sender since it appears in telnet client.
     if (client !== sender) {
       client.write(data);
     }

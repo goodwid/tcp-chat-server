@@ -8,6 +8,7 @@ const server = net.createServer(socket => {
 
   socket.on( 'close', () =>{
     console.log(`${socket.id} disconnected`);
+    
     // call cleanup function if user loses connection instead of using /quit
     if (chat.clients.indexOf(socket) > -1) chat.quit(socket);
   });
