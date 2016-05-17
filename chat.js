@@ -13,8 +13,16 @@ chat.init = function (socket) {
   socket.write(`\nHello ${socket.nick}!\n\nCommands are:\n /nick <nick>: change your name.\n /who: list all connections.\n /quit: leave the room.\n /me: action.\n /msg: send private message to another.\n\n`);
 
   chat.Events.on('nick'+socket.id, (newNick) => {
-    chat.writeAll(`*** ${socket.nick} is now known as ${newNick}\n`, null);
-    socket.nick = newNick;
+    var nickAvail = true;
+    chat.clients.foreach (client => {
+      if (newNick === client.nick) nickAvail = false;
+    });
+    if (nickAvail) {
+      chat.writeAll(`*** ${socket.nick} is now known as ${newNick}\n`, null);
+      socket.nick = newNick;
+    } else {
+      socket.write (' error: that nick is in use.\n');
+    }
   });
 
   chat.Events.on('quit'+socket.id, chat.quit);
