@@ -14,7 +14,7 @@ chat.init = function (socket) {
 
   chat.Events.on('nick'+socket.id, (newNick) => {
     var nickAvail = true;
-    chat.clients.foreach (client => {
+    chat.clients.forEach (client => {
       if (newNick === client.nick) nickAvail = false;
     });
     if (nickAvail) {
