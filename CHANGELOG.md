@@ -1,5 +1,10 @@
 ## changelog for tcp-chat-server
 
+### 1.1.0 (2016-05-17)
+
+#### changes:
+  - added standalone client
+
 ### 1.0.5 (2016-05-16)
 
 #### changes:
