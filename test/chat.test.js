@@ -3,7 +3,7 @@ const chat = require('../chat');
 
 // mock socket object
 function makeSocket() {
-  const socket = {
+  return {
     write (s) {
       this.output = s;
     },
@@ -11,7 +11,6 @@ function makeSocket() {
       this.output = 'destroy called';
     }
   };
-  return socket;
 }
 
 describe('chat client handling', () => {
@@ -19,12 +18,11 @@ describe('chat client handling', () => {
   it('init function adds socket to clients array', () => {
     chat.init(makeSocket());
     chat.init(makeSocket());
-    // console.log(chat.Event.listeners('nick'+chat.clients[0]));
-    assert (chat.clients.length !== 0);
+    assert.equal(chat.clients.length,2);
   });
 
   it('init function adds random nick to socket object', () => {
-    assert (chat.clients[0].nick);
+    assert(chat.clients[0].nick);
   });
 
   it('writeAll writes to all sockets except sender', () => {
@@ -32,7 +30,7 @@ describe('chat client handling', () => {
     assert ((chat.clients[0].output === 'test') && chat.clients[1].output !== 'test');
   });
 
-  it('nick event changes socket.nick', () => {
+  it('nick function changes socket.nick', () => {
     const oldNick = chat.clients[0].nick;
     chat.nickChange(chat.clients[0], 'test');
     assert(oldNick !== chat.clients[0].nick);
