@@ -1,6 +1,6 @@
 const gulp = require ('gulp');
 const eslint = require ('gulp-eslint');
-const mocha = require('gulp-mocha');
+const mocha = require('gulp-spawn-mocha');
 
 const js = ['**/*.js','!node_modules/**', '!gulpfile.js'];
 

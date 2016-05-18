@@ -42,4 +42,10 @@ describe('chat client handling', () => {
     assert (chat.clients.length === l - 1);
   });
 
+  // reset state for following test, thanks to gulp-mocha
+  after(() => {
+    chat.quit(chat.clients[0]);
+    chat.id=0;
+  });
+
 });

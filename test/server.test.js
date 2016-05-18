@@ -1,17 +1,17 @@
 const assert = require('chai').assert;
 const server = require('../server');
 const net = require('net');
-const port = 32894;
+const port = 15658;
 
 describe ('server',() => {
   before(done => {
     server.listen(port, done);
   });
+
   describe('client input', () => {
     var client1;
     var client2;
     var client3;
-
 
     before(done => {
       client1 = net.connect({port}, done);
@@ -66,6 +66,7 @@ describe ('server',() => {
       client3.end();
     });
   });
+
   after(done => {
     server.close(done);
   });
