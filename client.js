@@ -7,7 +7,6 @@ const port = process.argv[2] || 3000;
 process.stdin.resume();
 process.stdin.setEncoding('utf-8');
 
-process.stdout.write(aE.clearScreen);
 const client = net.connect({port}, () => {
   client.on('error', err => {
     console.log(err);
@@ -19,6 +18,7 @@ const client = net.connect({port}, () => {
   });
 
   client.on('data', text => {
+    process.stdout.write(aE.eraseStartLine + aE.cursorLeft);
     process.stdout.write(text);
     prompt();
   });
@@ -27,6 +27,7 @@ const client = net.connect({port}, () => {
     console.log('The connection has dropped.');
     process.exit(0);
   });
+  process.stdout.write(aE.clearScreen);
 });
 
 //

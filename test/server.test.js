@@ -45,7 +45,7 @@ describe ('server',() => {
       client3 = net.connect({port}, done);
     });
 
-    it ('client3 does not see private message between other clients',done => {
+    it ('client1 does not see private message between other clients',done => {
       client1.once ('data', message => {
         throw new Error (message);
       });
